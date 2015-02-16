@@ -36,6 +36,16 @@ type Inner struct {
     Summary   	string      `json:"summary"`
 }
 
+var directoryLocation string
+
+func initialize(dir string) {
+		if os.Getenv("STATE") == "PRODUCTION" {
+		directoryLocation = "/srv/directory/"
+	} else {
+		directoryLocation = os.Getenv("HOME") + dir
+	}
+}
+
 
 // ////////////////////////////////////////////////////////////////////////
 func (c App) GetFile(filename string) revel.Result {
@@ -46,8 +56,7 @@ func (c App) GetFile(filename string) revel.Result {
 
 	//need to test the file actually exists first.
 
-	fileRoot := "/Users/alex/Documents/testwikis/"
-	s := []string{fileRoot, filename}
+	s := []string{directoryLocation, filename}
 	file, err := os.Open(strings.Join(s, "")) // For read access.
 	if err != nil {
 		fmt.Println("error'd out")
@@ -55,12 +64,12 @@ func (c App) GetFile(filename string) revel.Result {
 	return c.RenderFile(file, "attachment") //inline would try and display it.
 }
 
-func getFolderStructure(fileLocation string) []Inner {
+func getFolderStructure() []Inner {
 	
 	dataArray := make([]Inner, 0)
-	currentDir := fileLocation
+	currentDir := directoryLocation
 
-	filepath.Walk( fileLocation, func(path string, info os.FileInfo, err error) error {
+	filepath.Walk( directoryLocation, func(path string, info os.FileInfo, err error) error {
 		
 		
 		if info.Mode().IsDir() {
@@ -70,7 +79,7 @@ func getFolderStructure(fileLocation string) []Inner {
 			}
 			var inner1 Inner
 			//dont show path directory as an explict directory
-			if path != fileLocation { //i.e its a sub directory
+			if path != directoryLocation { //i.e its a sub directory
 				absFileName := strings.Replace(path, currentDir, "", -1)
 				//removes .md off the file name to display
 				relFileName := strings.Split(absFileName, "/")
@@ -118,7 +127,8 @@ func getFolderStructure(fileLocation string) []Inner {
 ////////////////////////////////////////////////////////////////////////
 
 func (c App) Json() revel.Result {
-	return c.RenderJson(getFolderStructure("/Users/alex/Documents/testwikis"))
+	
+	return c.RenderJson(getFolderStructure())
 }
 
 func (c App) Explorer() revel.Result {
@@ -127,6 +137,6 @@ func (c App) Explorer() revel.Result {
 }
 
 func (c App) Index() revel.Result {
-	
+	initialize("/Documents/testwikis/")
 	return c.Render()
 }
