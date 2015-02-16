@@ -1,6 +1,6 @@
 #Go lang file browser
 
-* Inspired by the Cute File Browser
+* Inspired by the [Cute File Browser](http://tutorialzine.com/2014/09/cute-file-browser-jquery-ajax-php/)
 * CSS based on Cute file browser CSS
 * Javascript rewritten to fit the format of the JSON coming from server
 * Backend is written in Go using the Revel web framework
