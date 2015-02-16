@@ -16,3 +16,7 @@ func initialize(dir string) {
   }
 }
 ~~~
+
+####Screen shot:
+
+![alt text](screenshot.png)
