@@ -83,6 +83,12 @@ func getFolderStructure() []Inner {
 				//removes .md off the file name to display
 				relFileName := strings.Split(absFileName, "/")
 				//fmt.Println("rel file name: ", relFileName[len(relFileName)-1]) 
+				
+				/*
+				
+				THIS NEXT LINE IS ONLY CHECKING FOR MARKDOWN FILES - THIS IS UNECESSARY!
+				
+				*/
 				filename := strings.Replace(relFileName[len(relFileName)-1], ".md", "", -1)	
 				//sorting out the parent directory:
 				parent := strings.Split(path, "/")
