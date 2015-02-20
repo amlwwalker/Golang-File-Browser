@@ -38,7 +38,8 @@ type Inner struct {
 
 var directoryLocation string
 
-func initialize(dir string) {
+func initialize() {
+		dir := "/Documents/testwikis/"
 		if os.Getenv("STATE") == "PRODUCTION" {
 		directoryLocation = "/srv/directory/"
 	} else {
@@ -46,22 +47,43 @@ func initialize(dir string) {
 	}
 }
 
+type Message struct {
+	Message string 		`json:"message"`
+	Result string 		`json:"result"`
+}
+
 
 // ////////////////////////////////////////////////////////////////////////
 func (c App) GetFile(filename string) revel.Result {
 	
-	var title string
-	c.Params.Bind(&title, "title")
-	title = strings.Replace(title, "_", " ", -1)
 
-	//need to test the file actually exists first.
-
-	s := []string{directoryLocation, filename}
-	file, err := os.Open(strings.Join(s, "")) // For read access.
-	if err != nil {
-		fmt.Println("error'd out")
+	p := returnFilePath(filename)
+	if strings.Contains(p, "error") {
+		fmt.Println("p: error: ", p)
+		m := Message {"nothing here", p}
+		return c.RenderJson(m)
 	}
-	return c.RenderFile(file, "attachment") //inline would try and display it.
+	file, err := os.Open(p) // For read access.
+	if err != nil {
+		fmt.Println("error'd out", )
+	}
+	return c.RenderFile(file, "attachment") //inline would try and display it (apparently).
+}
+
+func returnFilePath(filename string) string {
+
+	var p string
+	p = "error - p not found"
+	filepath.Walk( directoryLocation, func(path string, info os.FileInfo, err error) error {
+		if strings.Contains(path, filename ){
+
+			p = path 
+		}
+		return nil
+	})
+
+	fmt.Println("returning p: ", p)
+	return p
 }
 
 func getFolderStructure() []Inner {
@@ -132,12 +154,13 @@ func (c App) Json() revel.Result {
 
 func (c App) Explorer() revel.Result {
 	if directoryLocation == "" {
-		initialize("/Documents/testwikis/")
+		initialize()
 	}
 	return c.Render()
 }
 
 func (c App) Index() revel.Result {
-	initialize("/Documents/testwikis/")
-	return c.Render()
+	initialize()
+	m := Message {"nothing to see here", "NULL"}
+	return c.RenderJson(m)
 }
