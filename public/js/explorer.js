@@ -23,18 +23,28 @@ $.get('/json', function(data) {
 
 	//clicking on an item
 	fileList.on('click', 'li', function(e){
-	    fileList.empty();
+	    
 	    //currently happening for everything - need to download file if not a folder
 	    if ($(this).hasClass('folders')){
+	    	fileList.empty();
 	    	display(data, $(this).attr('id')); 
+	    	currentFile = ""
+	    	menu.hide();
 	    } else { //its a file - hit the end point to download it
 	    	// console.log($(this).attr('id'));
 	    	// window.location.href = "/getfile?filename="+$(this).attr('id').replace("/ /g","_", -1);
-	    	currentFile = $(this).attr('id')
-	    	console.log("Hey there: " + $(this).attr('id'))
-	    	$(this).addClass('clicked')
-	    	menu.show();
-	    	display(data, $(this).attr('parent'));
+	    	if ($(this).hasClass('clicked')) {
+	    		$(this).removeClass('clicked')	
+	    		currentFile = ""
+	    		menu.hide();
+	    	} else {
+	    		currentFile = $(this).attr('id')
+	    		$('li').removeClass('clicked')
+	    		$(this).addClass('clicked')
+	    		menu.show();	
+	    	}
+	    	
+	    	// display(data, $(this).attr('parent'));
 	    }
 
 		
@@ -60,6 +70,8 @@ $.get('/json', function(data) {
 		display(data, $(this).attr('id'));
 		currentBreadCrumb = $(this).attr('id');
 		generateBreadCrumbTrail(data, $(this).attr('id'))
+		currentFile = ""
+	    menu.hide();
 	});
 	//handling search
 	filemanager.find('.search').click(function(){

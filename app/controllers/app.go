@@ -68,7 +68,6 @@ func getFolderStructure() []Inner {
 	
 	dataArray := make([]Inner, 0)
 	currentDir := directoryLocation
-
 	filepath.Walk( directoryLocation, func(path string, info os.FileInfo, err error) error {
 		
 		
@@ -132,7 +131,9 @@ func (c App) Json() revel.Result {
 }
 
 func (c App) Explorer() revel.Result {
-	
+	if directoryLocation == "" {
+		initialize("/Documents/testwikis/")
+	}
 	return c.Render()
 }
 

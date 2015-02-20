@@ -21,61 +21,6 @@ body {
 	z-index: -4;
 }
 
-.clicked {
-	background-color: yellow;
-}
-
-.arrow-down {
-	left: 20px	;
-	width: 0; 
-	height: 0; 
-	margin-top: 17px;
-	margin-left: 110px;	
-	border-left: 10px solid transparent;
-	border-right: 10px solid transparent;
-	
-	border-top: 15px solid #ffffff;
-	border-radius: 3px;
-	opacity:0.9;
-}
-
-
-/* modification options */
-.modify li {
-	border-radius: 3px;
-	background-color: rgba(44,102,150, 0.6);
-	width: 150px;
-	height: 60px;
-	list-style-type: none;
-	margin-left: 10px;
-	margin-top: 20px;
-	display: inline-block;
-	position: relative;
-	overflow: hidden;
-	padding: 0.3em;
-	z-index: 1;
-	cursor: pointer;
-	box-sizing: border-box;
-	transition: 0.3s background-color;
-}
-
-.modify li .name {
-	color: #ffffff;
-	font-size: 15px;
-	font-weight: 700;
-	line-height: 20px;
-	width: 150px;
-	white-space: nowrap;
-	display: inline-block;
-	position: absolute;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	top: 20px;
-	left: 20px;
-}
-
-
-
 /*-------------------------
 	File manager
 -------------------------*/
@@ -211,7 +156,7 @@ body {
 	animation: showSlowlyElement 700ms; /* Standard syntax */
 }
 
-.filemanager .data li {
+.files, .folders {
 	border-radius: 3px;
 	background-color: rgb(44,102,150);
 	width: 307px;
@@ -228,8 +173,8 @@ body {
 	transition: 0.3s background-color;
 }
 
-.filemanager .data li:hover {
-	background-color: #42424E;
+.files:hover, .folders:hover {
+	background-color: rgb(69,121,164);
 
 }
 

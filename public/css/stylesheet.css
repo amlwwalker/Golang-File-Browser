@@ -1,0 +1,57 @@
+.clicked {
+	background-color: rgb(111,157,195);
+	border: 3px solid rgb(111,157,195);
+}
+.clicked:hover {
+	background-color: rgb(69,121,164);
+}
+.arrow-down {
+	left: 20px	;
+	width: 0; 
+	height: 0; 
+	margin-top: 17px;
+	margin-left: 110px;	
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	
+	border-top: 15px solid #ffffff;
+	border-radius: 3px;
+	opacity:0.9;
+}
+
+.modify .option:hover {
+	background-color: rgb(69,121,164);
+}
+/* modification options */
+.modify .option {
+	border-radius: 3px;
+	background-color: rgba(44,102,150, 0.6);
+	width: 150px;
+	height: 60px;
+	list-style-type: none;
+	margin-left: 10px;
+	margin-top: 20px;
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	padding: 0.3em;
+	z-index: 1;
+	cursor: pointer;
+	box-sizing: border-box;
+	transition: 0.3s background-color;
+}
+
+.modify .option .name {
+	color: #ffffff;
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 20px;
+	width: 150px;
+	white-space: nowrap;
+	display: inline-block;
+	position: absolute;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	top: 20px;
+	left: 20px;
+}
