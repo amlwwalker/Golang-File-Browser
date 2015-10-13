@@ -111,7 +111,7 @@ func getFolderStructure() []Inner {
 				filename := strings.Replace(relFileName[len(relFileName)-1], ".md", "", -1)	
 				//sorting out the parent directory:
 				parent := strings.Split(path, "/")
-				if parent[len(parent)-2] != root[len(root) - 2] { //if its parent is not the root
+				if parent[len(parent)-2] != root[len(root) - 1] { //if its parent is not the root
 					inner1 = Inner{filename, parent[len(parent)-2], filename, "directory", strconv.FormatInt(info.Size(), 10)}	
 				} else {
 					inner1 = Inner{filename, "#", filename, "directory", strconv.FormatInt(info.Size(), 10)}	
@@ -131,7 +131,7 @@ func getFolderStructure() []Inner {
 
 			var inner1 Inner
 			parent := strings.Split(path, "/")
-			if parent[len(parent)-2] != root[len(root) - 2] {
+			if parent[len(parent)-2] != root[len(root) - 1] {
 				inner1 = Inner{filename, parent[len(parent)-2], strings.Split(filename, ".")[0], filename, strconv.FormatInt(info.Size(), 10)}
 			} else {
 				inner1 = Inner{filename, "#", strings.Split(filename, ".")[0], filename, strconv.FormatInt(info.Size(), 10)}

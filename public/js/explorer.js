@@ -149,7 +149,6 @@ function displayFile(data, d) {
 //the idea is this function is recursive, and called when a folder is clicked on
 function display(data, parent) {
 	generateBreadCrumbTrail(data, parent)
-	
 	data.forEach(function(d){
 				console.log(d.parent, " ", parent)
 				if (d.parent === parent) {
