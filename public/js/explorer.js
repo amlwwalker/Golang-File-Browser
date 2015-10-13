@@ -56,7 +56,7 @@ $.get('/json', function(data) {
 			console.log("no file selected")
 		} else {
 			console.log(currentFile)
-			window.location.href = "/download?filename="+currentFile.replace("/ /g","_", -1);	
+			window.location.href = "/getfile?filename="+currentFile.replace("/ /g","_", -1);	
 		}
 		
 	});
