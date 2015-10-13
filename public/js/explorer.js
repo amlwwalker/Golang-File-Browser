@@ -55,7 +55,8 @@ $.get('/json', function(data) {
 		if (currentFile === "") {
 			console.log("no file selected")
 		} else {
-			window.location.href = "/getfile?filename="+currentFile.replace("/ /g","_", -1);	
+			console.log(currentFile)
+			window.location.href = "/download?filename="+currentFile.replace("/ /g","_", -1);	
 		}
 		
 	});
@@ -75,7 +76,7 @@ $.get('/json', function(data) {
 	});
 	//handling search
 	filemanager.find('.search').click(function(){
-
+			toggleHidden(breadcrumbs)
 			var search = $(this);
 			//toggle showing the search box
 			if (search.find('input[type=search]').css("display") == "inline-block") {
@@ -94,6 +95,12 @@ $.get('/json', function(data) {
 		searchForFile(data, $('input[type=search]').val());
 	});
 });
+
+function toggleHidden(item) {
+    return item.css('visibility', function(i, visibility) {
+        return (visibility == 'visible') ? 'hidden' : 'visible';
+    });
+}
 
 function generateBreadCrumbTrail(data, parent) {
 	breadcrumbs.empty()
@@ -126,7 +133,7 @@ function displayFolder(data, d){
 	folder.appendTo(fileList);
 }
 function displayFile(data, d) {
-	var fileSize = bytesToSize(d.summary), //need to include file size in json
+	var fileSize = bytesToSize(d.size), //need to include file size in json
 	name = escapeHTML(d.text),
 	fileType = d.id.split('.'), //split the id, the name is just cosmetics...
 	icon = '<span class="icon file"></span>';
@@ -144,6 +151,7 @@ function display(data, parent) {
 	generateBreadCrumbTrail(data, parent)
 	
 	data.forEach(function(d){
+				console.log(d.parent, " ", parent)
 				if (d.parent === parent) {
 
 					if(d.summary === 'directory') {
@@ -176,17 +184,18 @@ function countChildren(data, parent) {
 }
 
 function searchForFile(data, param) {
-			fileList.empty();
-			data.forEach(function(d){
-				if (d.id.indexOf(param) > -1){
-					if(d.summary === 'directory') {
-						displayFolder(data, d)
-					}
-					else {
-						displayFile(data, d)
-					}
-				}
-			});
+	fileList.empty();
+	console.log($('.search'))
+	data.forEach(function(d){
+		if (d.id.toLowerCase().indexOf(param) > -1){
+			if(d.summary === 'directory') {
+				displayFolder(data, d)
+			}
+			else {
+				displayFile(data, d)
+			}
+		}
+	});
 }
 
 function bytesToSize(bytes) {

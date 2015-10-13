@@ -1,6 +1,9 @@
 package app
 
-import "github.com/revel/revel"
+import (
+	"github.com/revel/revel"
+	"github.com/amlwwalker/Golang-File-Browser/app/controllers"
+)
 
 func init() {
 	// Filters is the default set of global filters.
@@ -24,7 +27,7 @@ func init() {
 	// revel.OnAppStart(InitDB)
 	// revel.OnAppStart(FillCache)
 	//initialise the file browser
-	revel.OnAppStart(controllers.initialize)
+	revel.OnAppStart(controllers.Initialize)
 }
 
 // TODO turn this into revel.HeaderFilter

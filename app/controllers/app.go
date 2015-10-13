@@ -34,12 +34,14 @@ type Inner struct {
     Parent   	string      `json:"parent"`
     Text   		string      `json:"text"`
     Summary   	string      `json:"summary"`
+    Size		string 		`json:"size"`
 }
 
 var directoryLocation string
 
-func initialize() {
+func Initialize() {
 		directoryLocation = os.Getenv("SRVLOCATION")
+		fmt.Println("Initialized", directoryLocation)
 }
 
 type Message struct {
@@ -85,8 +87,8 @@ func getFolderStructure() []Inner {
 	
 	dataArray := make([]Inner, 0)
 	currentDir := directoryLocation
+	root := strings.Split(directoryLocation, "/")
 	filepath.Walk( directoryLocation, func(path string, info os.FileInfo, err error) error {
-		
 		
 		if info.Mode().IsDir() {
 			//damned bitsync
@@ -109,10 +111,10 @@ func getFolderStructure() []Inner {
 				filename := strings.Replace(relFileName[len(relFileName)-1], ".md", "", -1)	
 				//sorting out the parent directory:
 				parent := strings.Split(path, "/")
-				if parent[len(parent)-2] != "testwikis" { //if its parent is not the root
-					inner1 = Inner{filename, parent[len(parent)-2], filename, "directory"}	
+				if parent[len(parent)-2] != root[len(root) - 2] { //if its parent is not the root
+					inner1 = Inner{filename, parent[len(parent)-2], filename, "directory", strconv.FormatInt(info.Size(), 10)}	
 				} else {
-					inner1 = Inner{filename, "#", filename, "directory"}	
+					inner1 = Inner{filename, "#", filename, "directory", strconv.FormatInt(info.Size(), 10)}	
 				}
 				dataArray = append(dataArray, inner1)
 			}	
@@ -129,10 +131,10 @@ func getFolderStructure() []Inner {
 
 			var inner1 Inner
 			parent := strings.Split(path, "/")
-			if parent[len(parent)-2] != "testwikis" {
-				inner1 = Inner{filename, parent[len(parent)-2], strings.Split(filename, ".")[0], strconv.FormatInt(info.Size(), 10)}
+			if parent[len(parent)-2] != root[len(root) - 2] {
+				inner1 = Inner{filename, parent[len(parent)-2], strings.Split(filename, ".")[0], filename, strconv.FormatInt(info.Size(), 10)}
 			} else {
-				inner1 = Inner{filename, "#", strings.Split(filename, ".")[0] , strconv.FormatInt(info.Size(), 10)}
+				inner1 = Inner{filename, "#", strings.Split(filename, ".")[0], filename, strconv.FormatInt(info.Size(), 10)}
 			}	
 			dataArray = append(dataArray, inner1)
 			
@@ -154,14 +156,11 @@ func (c App) Json() revel.Result {
 }
 
 func (c App) Explorer() revel.Result {
-	if directoryLocation == "" {
-		initialize()
-	}
 	return c.Render()
 }
 
 func (c App) Index() revel.Result {
-	initialize()
+	Initialize()
 	m := Message {"nothing to see here", "NULL"}
 	return c.RenderJson(m)
 }
