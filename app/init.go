@@ -23,6 +23,8 @@ func init() {
 	// ( order dependent )
 	// revel.OnAppStart(InitDB)
 	// revel.OnAppStart(FillCache)
+	//initialise the file browser
+	revel.OnAppStart(controllers.initialize)
 }
 
 // TODO turn this into revel.HeaderFilter
