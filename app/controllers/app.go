@@ -39,12 +39,7 @@ type Inner struct {
 var directoryLocation string
 
 func initialize() {
-		dir := "/Documents/testwikis/"
-		if os.Getenv("STATE") == "PRODUCTION" {
-		directoryLocation = "/srv/directory/"
-	} else {
-		directoryLocation = os.Getenv("HOME") + dir
-	}
+		directoryLocation = os.Getenv("SRVLOCATION")
 }
 
 type Message struct {
